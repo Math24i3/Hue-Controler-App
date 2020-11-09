@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div v-if="fieldData.light" class="row flex">
+        <div v-if="fieldData.light" class="row flex pt-3">
             <div class="col-auto">
                 <i v-if="fieldData.light.bri > 0" class="fas fa-lightbulb"></i>
                 <i v-else class="far fa-lightbulb"></i>
@@ -41,6 +41,7 @@ export default {
     },
     methods: {
         toggleBrightness: function () {
+            this.fetching = true
             let bri = Number(50.8 * this.fieldData.brightness).toFixed(0);
             if (bri == 0) {
                 bri = 1
@@ -53,8 +54,12 @@ export default {
                 url: this.lightSwitchEndpoint.replace('_id_', '1'),
                 data: data
             }).then((response) => {
+                if (response.status == 200) {
+                    this.fetching  = false
+                }
                 return response;
             }).catch((response) => {
+                this.fetching  = false
                 console.log(response);
                 return false;
             });

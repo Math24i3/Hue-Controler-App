@@ -1,11 +1,12 @@
 <template>
     <div class="container">
-        <div v-if="fieldData.light" class="row flex">
+        <div v-if="fieldData.light" class="row flex pt-3">
             <div class="col-auto">
                 <i class="fas fa-palette pt-2" style="font-size: 1.7em"></i>
             </div>
             <div class="col-md-2">
                 <v-swatches v-model="color"
+                            :disabled="fetching"
                             :swatches="swatches"
                             row-length="5"
                             shapes="circles"
@@ -30,6 +31,7 @@ export default {
 
     data() {
         return {
+            fetching: false,
             fieldData: {
                 light: null,
             },
@@ -78,8 +80,12 @@ export default {
                 url: this.lightSwitchEndpoint.replace('_id_', '1'),
                 data: data
             }).then((response) => {
+                if (response.status == 200) {
+                    this.fetching  = false
+                }
                 return response;
             }).catch((response) => {
+                this.fetching  = false
                 console.log(response);
                 return false;
             });

@@ -17,6 +17,7 @@
                 <light-switch v-bind:light-switch-endpoint="' {{ $lightSwitchEndpoint }}'"></light-switch>
                 <brightness-controller v-bind:light-switch-endpoint="' {{ $lightSwitchEndpoint }}'"></brightness-controller>
                 <color-controller v-bind:light-switch-endpoint="' {{ $lightSwitchEndpoint }}'"></color-controller>
+                <color-effect-controller v-bind:light-switch-endpoint="' {{ $lightSwitchEndpoint }}'"></color-effect-controller>
             </div>
         </div>
 </div>

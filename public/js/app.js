@@ -1982,6 +1982,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     toggleBrightness: function toggleBrightness() {
+      var _this = this;
+
+      this.fetching = true;
       var bri = Number(50.8 * this.fieldData.brightness).toFixed(0);
 
       if (bri == 0) {
@@ -1996,14 +1999,19 @@ __webpack_require__.r(__webpack_exports__);
         url: this.lightSwitchEndpoint.replace('_id_', '1'),
         data: data
       }).then(function (response) {
+        if (response.status == 200) {
+          _this.fetching = false;
+        }
+
         return response;
       })["catch"](function (response) {
+        _this.fetching = false;
         console.log(response);
         return false;
       });
     },
     getLightState: function getLightState() {
-      var _this = this;
+      var _this2 = this;
 
       this.fetching = true;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.lightSwitchEndpoint.replace('_id_', '1')).then(function (response) {
@@ -2012,9 +2020,9 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         if (response.data.state) {
-          _this.$set(_this.$data.fieldData, 'light', response.data.state);
+          _this2.$set(_this2.$data.fieldData, 'light', response.data.state);
 
-          _this.fieldData.brightness = _this.fieldData.light.bri / 50.8;
+          _this2.fieldData.brightness = _this2.fieldData.light.bri / 50.8;
         }
 
         return true;
@@ -2067,12 +2075,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      fetching: false,
       fieldData: {
         light: null
       },
@@ -2095,6 +2105,8 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.color);
     },
     toggleColor: function toggleColor() {
+      var _this = this;
+
       var color = this.color;
       var data = {
         'xy': null
@@ -2122,11 +2134,153 @@ __webpack_require__.r(__webpack_exports__);
         url: this.lightSwitchEndpoint.replace('_id_', '1'),
         data: data
       }).then(function (response) {
+        if (response.status == 200) {
+          _this.fetching = false;
+        }
+
         return response;
+      })["catch"](function (response) {
+        _this.fetching = false;
+        console.log(response);
+        return false;
+      });
+    },
+    getLightState: function getLightState() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.lightSwitchEndpoint.replace('_id_', '1')).then(function (response) {
+        if (!response || !response.data) {
+          return false;
+        }
+
+        if (response.data.state) {
+          _this2.$set(_this2.$data.fieldData, 'light', response.data.state);
+        }
+
+        return true;
       })["catch"](function (response) {
         console.log(response);
         return false;
       });
+    }
+  },
+  components: {
+    VSwatches: vue_swatches__WEBPACK_IMPORTED_MODULE_1___default.a
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/hue/ColorEffectController.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/hue/ColorEffectController.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      intervalId: null,
+      fetching: false,
+      testColor: 'red',
+      colorEffect: false,
+      colorIndex: null,
+      colorCycle: [[0.7, 0.28], [0.2, 0.7], [0.15, 0.05]],
+      fieldData: {
+        light: null
+      }
+    };
+  },
+  props: {
+    lightSwitchEndpoint: {
+      required: true,
+      type: String
+    }
+  },
+  computed: {
+    buttonStyle: function buttonStyle() {
+      var style = {};
+
+      if (this.colorIndex === 1 && this.colorEffect === true) {
+        style = {
+          'background-color': '#bf4747'
+        };
+      } else if (this.colorIndex === 2 && this.colorEffect === true) {
+        style = {
+          'background-color': '#52a752'
+        };
+      } else if (this.colorIndex === 0 && this.colorEffect === true) {
+        style = {
+          'background-color': '#3a3aa5'
+        };
+      }
+
+      return style;
+    }
+  },
+  mounted: function mounted() {
+    this.getLightState();
+  },
+  methods: {
+    toggleColorEffect: function toggleColorEffect() {
+      var t = this;
+      this.colorEffect = this.colorEffect === false;
+
+      if (this.colorEffect === true) {
+        t.colorIndex = 0;
+        this.intervalId = setInterval(function () {
+          t.toggleColor(t.colorIndex);
+          t.colorIndex++;
+
+          if (t.colorIndex == 3) {
+            t.colorIndex = 0;
+          }
+        }, 500);
+      } else {
+        clearInterval(this.intervalId);
+      }
+    },
+    toggleColor: function toggleColor(colorIndex) {
+      var data = {
+        'xy': null
+      };
+      data['xy'] = this.colorCycle[colorIndex];
+
+      if (data['xy'] != null) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default()({
+          method: 'post',
+          url: this.lightSwitchEndpoint.replace('_id_', '1'),
+          data: data
+        }).then(function (response) {
+          if (response.status == 200) {}
+
+          return response;
+        })["catch"](function (response) {
+          console.log(response);
+          return false;
+        });
+      }
     },
     getLightState: function getLightState() {
       var _this = this;
@@ -2147,9 +2301,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  components: {
-    VSwatches: vue_swatches__WEBPACK_IMPORTED_MODULE_1___default.a
-  }
+  components: {}
 });
 
 /***/ }),
@@ -2190,6 +2342,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      fetching: false,
       fieldData: {
         light: null
       }
@@ -2207,6 +2360,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     toggleLight: function toggleLight() {
+      var _this = this;
+
+      this.fetching = true;
       var data = {
         'on': !this.fieldData.light.on
       };
@@ -2215,14 +2371,19 @@ __webpack_require__.r(__webpack_exports__);
         url: this.lightSwitchEndpoint.replace('_id_', '1'),
         data: data
       }).then(function (response) {
+        if (response.status == 200) {
+          _this.fetching = false;
+        }
+
         return response;
       })["catch"](function (response) {
+        _this.fetching = false;
         console.log(response);
         return false;
       });
     },
     getLightState: function getLightState() {
-      var _this = this;
+      var _this2 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.lightSwitchEndpoint.replace('_id_', '1')).then(function (response) {
         if (!response || !response.data) {
@@ -2230,7 +2391,7 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         if (response.data.state) {
-          _this.$set(_this.$data.fieldData, 'light', response.data.state);
+          _this2.$set(_this2.$data.fieldData, 'light', response.data.state);
         }
 
         return true;
@@ -38499,7 +38660,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _vm.fieldData.light
-      ? _c("div", { staticClass: "row flex" }, [
+      ? _c("div", { staticClass: "row flex pt-3" }, [
           _c("div", { staticClass: "col-auto" }, [
             _vm.fieldData.light.bri > 0
               ? _c("i", { staticClass: "fas fa-lightbulb" })
@@ -38567,7 +38728,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _vm.fieldData.light
-      ? _c("div", { staticClass: "row flex" }, [
+      ? _c("div", { staticClass: "row flex pt-3" }, [
           _vm._m(0),
           _vm._v(" "),
           _c(
@@ -38576,6 +38737,7 @@ var render = function() {
             [
               _c("v-swatches", {
                 attrs: {
+                  disabled: _vm.fetching,
                   swatches: _vm.swatches,
                   "row-length": "5",
                   shapes: "circles",
@@ -38621,6 +38783,65 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/hue/ColorEffectController.vue?vue&type=template&id=4a43ef5e&":
+/*!****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/hue/ColorEffectController.vue?vue&type=template&id=4a43ef5e& ***!
+  \****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _vm.fieldData.light
+      ? _c("div", { staticClass: "row flex pt-3" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-2 pt-1" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary border-0",
+                style: _vm.buttonStyle,
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.toggleColorEffect()
+                  }
+                }
+              },
+              [_vm._v(_vm._s(!_vm.colorEffect ? "Start" : "Stop "))]
+            )
+          ])
+        ])
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-auto" }, [
+      _c("i", {
+        staticClass: "fas fa-traffic-light pt-2",
+        staticStyle: { "font-size": "1.7em" }
+      })
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/hue/LightSwitch.vue?vue&type=template&id=472e8838&":
 /*!******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/hue/LightSwitch.vue?vue&type=template&id=472e8838& ***!
@@ -38638,7 +38859,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _vm.fieldData.light
-      ? _c("div", { staticClass: "row flex" }, [
+      ? _c("div", { staticClass: "row flex pt-3" }, [
           _c("div", { staticClass: "col-auto" }, [
             _vm.fieldData.light.on
               ? _c("i", { staticClass: "fas fa-lightbulb" })
@@ -38657,7 +38878,11 @@ var render = function() {
                   }
                 ],
                 staticClass: "custom-control-input",
-                attrs: { type: "checkbox", id: "customSwitches" },
+                attrs: {
+                  type: "checkbox",
+                  id: "customSwitches",
+                  disabled: _vm.fetching
+                },
                 domProps: {
                   checked: Array.isArray(_vm.fieldData.light.on)
                     ? _vm._i(_vm.fieldData.light.on, null) > -1
@@ -50952,6 +51177,7 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 Vue.component('light-switch', __webpack_require__(/*! ./components/hue/LightSwitch.vue */ "./resources/js/components/hue/LightSwitch.vue")["default"]);
 Vue.component('brightness-controller', __webpack_require__(/*! ./components/hue/BrightnessController.vue */ "./resources/js/components/hue/BrightnessController.vue")["default"]);
 Vue.component('color-controller', __webpack_require__(/*! ./components/hue/ColorController.vue */ "./resources/js/components/hue/ColorController.vue")["default"]);
+Vue.component('color-effect-controller', __webpack_require__(/*! ./components/hue/ColorEffectController.vue */ "./resources/js/components/hue/ColorEffectController.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -51211,6 +51437,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ColorController_vue_vue_type_template_id_4affcba6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ColorController_vue_vue_type_template_id_4affcba6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/hue/ColorEffectController.vue":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/hue/ColorEffectController.vue ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ColorEffectController_vue_vue_type_template_id_4a43ef5e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ColorEffectController.vue?vue&type=template&id=4a43ef5e& */ "./resources/js/components/hue/ColorEffectController.vue?vue&type=template&id=4a43ef5e&");
+/* harmony import */ var _ColorEffectController_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ColorEffectController.vue?vue&type=script&lang=js& */ "./resources/js/components/hue/ColorEffectController.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ColorEffectController_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ColorEffectController_vue_vue_type_template_id_4a43ef5e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ColorEffectController_vue_vue_type_template_id_4a43ef5e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/hue/ColorEffectController.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/hue/ColorEffectController.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/hue/ColorEffectController.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ColorEffectController_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ColorEffectController.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/hue/ColorEffectController.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ColorEffectController_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/hue/ColorEffectController.vue?vue&type=template&id=4a43ef5e&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/hue/ColorEffectController.vue?vue&type=template&id=4a43ef5e& ***!
+  \**********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ColorEffectController_vue_vue_type_template_id_4a43ef5e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ColorEffectController.vue?vue&type=template&id=4a43ef5e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/hue/ColorEffectController.vue?vue&type=template&id=4a43ef5e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ColorEffectController_vue_vue_type_template_id_4a43ef5e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ColorEffectController_vue_vue_type_template_id_4a43ef5e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

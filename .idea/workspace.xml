@@ -19,15 +19,16 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6fbeedee-58f1-4cb9-a706-889a1fa38c99" name="Default Changelist" comment="First commit">
-      <change afterPath="$PROJECT_DIR$/resources/js/components/hue/ColorController.vue" afterDir="false" />
+    <list default="true" id="6fbeedee-58f1-4cb9-a706-889a1fa38c99" name="Default Changelist" comment="2# commit">
+      <change afterPath="$PROJECT_DIR$/resources/js/components/hue/ColorEffectController.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/hue/BrightnessController.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/hue/BrightnessController.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/hue/ColorController.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/hue/ColorController.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/hue/LightSwitch.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/hue/LightSwitch.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/home.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/welcome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/welcome.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -192,7 +193,7 @@
       <option name="presentableId" value="Default" />
       <updated>1604840501882</updated>
       <workItem from="1604840502894" duration="11186000" />
-      <workItem from="1604929337408" duration="3893000" />
+      <workItem from="1604929337408" duration="11390000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <created>1604851767355</created>
@@ -201,7 +202,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604851767355</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="2# commit">
+      <created>1604933685195</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1604933685195</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -220,7 +228,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="First commit" />
+    <MESSAGE value="2# commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="2# commit" />
   </component>
   <component name="WindowStateProjectService">
     <state x="681" y="358" width="537" height="396" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1604846483719">
@@ -231,10 +240,10 @@
       <screen x="0" y="30" width="1920" height="1050" />
     </state>
     <state x="738" y="299" width="424" height="515" key="FileChooserDialogImpl/0.30.1920.1050@0.30.1920.1050" timestamp="1604851689586" />
-    <state x="550" y="291" width="800" height="531" key="Vcs.Push.Dialog.v2" timestamp="1604851910806">
+    <state x="550" y="291" width="800" height="531" key="Vcs.Push.Dialog.v2" timestamp="1604933765720">
       <screen x="0" y="30" width="1920" height="1050" />
     </state>
-    <state x="550" y="291" width="800" height="531" key="Vcs.Push.Dialog.v2/0.30.1920.1050@0.30.1920.1050" timestamp="1604851910806" />
+    <state x="550" y="291" width="800" height="531" key="Vcs.Push.Dialog.v2/0.30.1920.1050@0.30.1920.1050" timestamp="1604933765720" />
     <state x="770" y="471" width="369" height="171" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1604851708289">
       <screen x="0" y="30" width="1920" height="1050" />
     </state>
