@@ -22,6 +22,7 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('light-switch', require('./components/hue/LightSwitch.vue').default);
 Vue.component('brightness-controller', require('./components/hue/BrightnessController.vue').default);
+Vue.component('color-controller', require('./components/hue/ColorController.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
